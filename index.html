@@ -62,7 +62,7 @@ button{
 <body>
 
 <h1>🧙‍♂️ Kai y el Laberinto</h1>
-<p>Ayuda a Kai a abrir las puertas con divisiones</p>
+<p>Ayuda a Kai a abrir las puertas resolviendo divisiones</p>
 
 <div class="game">
 
@@ -99,22 +99,16 @@ let time = 60;
 let timer;
 let num1, num2, correct;
 
-function speak(text){
-  const msg = new SpeechSynthesisUtterance(text);
-  msg.lang = "es-ES";
-  speechSynthesis.speak(msg);
-}
-
 function setLevel(l){
   level = l;
   score = 0;
   time = 60;
   document.getElementById("score").textContent = score;
   document.getElementById("medal").textContent = "—";
+  document.getElementById("message").textContent = "";
   clearInterval(timer);
   startTimer();
   newChallenge();
-  speak("Nivel seleccionado. Kai avanza con cuidado.");
 }
 
 function startTimer(){
@@ -124,9 +118,8 @@ function startTimer(){
     document.getElementById("time").textContent = time;
     if(time<=0){
       clearInterval(timer);
-      speak("El tiempo terminó. Kai necesita entrenar más.");
       document.getElementById("message").textContent =
-        "⏰ Tiempo terminado. Intenta otra vez.";
+        "⏰ Tiempo terminado. Kai debe entrenar más.";
     }
   },1000);
 }
@@ -136,8 +129,10 @@ function newChallenge(){
   num2 = Math.floor(Math.random()*max)+2;
   correct = Math.floor(Math.random()*max)+2;
   num1 = num2 * correct;
+
   document.getElementById("operation").textContent =
     `${num1} ÷ ${num2} = ?`;
+
   document.getElementById("answer").value="";
 }
 
@@ -148,13 +143,11 @@ function check(){
     document.getElementById("score").textContent = score;
     document.getElementById("message").textContent =
       "✨ ¡Correcto! Kai abre una puerta.";
-    speak("Correcto. Kai avanza.");
     giveMedal();
     newChallenge();
   }else{
     document.getElementById("message").textContent =
       "❌ La puerta sigue cerrada. Intenta otra vez.";
-    speak("Intenta de nuevo.");
   }
 }
 
